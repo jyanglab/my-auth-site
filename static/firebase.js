@@ -20,27 +20,43 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+// Sign In
 window.loginUser = function () {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
 
   signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      window.location.href = "/dashboard/";
-    })
-    .catch((error) => {
-      alert("Login failed: " + error.message);
-    });
+    .then(() => (window.location.href = "/dashboard/"))
+    .catch((error) => alert("Login failed: " + error.message));
 };
 
+// Sign Up
+window.signupUser = function () {
+  const email = document.getElementById("signup-email").value;
+  const password = document.getElementById("signup-password").value;
+
+  createUserWithEmailAndPassword(auth, email, password)
+    .then(async (userCredential) => {
+      const user = userCredential.user;
+      // Store metadata in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        role: "user" // default role, or customize as needed
+      });
+      alert("Account created! Redirecting to dashboard...");
+      window.location.href = "/dashboard/";
+    })
+    .catch((error) => alert("Signup failed: " + error.message));
+};
+
+// Load User Info
 window.onload = function () {
   onAuthStateChanged(auth, async (user) => {
     if (user && window.location.pathname.includes("/dashboard")) {
-      const docRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(docRef);
-      const userData = docSnap.data();
-      document.getElementById("welcome").innerText = `Welcome ${userData.role} ${user.email}`;
+      const snap = await getDoc(doc(db, "users", user.uid));
+      const userData = snap.data();
+      document.getElementById("welcome").innerText =
+        `Welcome ${userData.role} ${user.email}`;
     }
   });
 };
-

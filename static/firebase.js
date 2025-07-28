@@ -1,7 +1,8 @@
-// firebase.js
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+import{getFirestore, setDoc, doc} from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js"
+ 
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -16,47 +17,80 @@ const firebaseConfig = {
 };
 
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
+ // Initialize Firebase
+ const app = initializeApp(firebaseConfig);
 
-// Sign In
-window.loginUser = function () {
-  const email = document.getElementById("login-email").value;
-  const password = document.getElementById("login-password").value;
+ function showMessage(message, divId){
+    var messageDiv=document.getElementById(divId);
+    messageDiv.style.display="block";
+    messageDiv.innerHTML=message;
+    messageDiv.style.opacity=1;
+    setTimeout(function(){
+        messageDiv.style.opacity=0;
+    },5000);
+ }
+ const signUp=document.getElementById('submitSignUp');
+ signUp.addEventListener('click', (event)=>{
+    event.preventDefault();
+    const email=document.getElementById('rEmail').value;
+    const password=document.getElementById('rPassword').value;
+    const firstName=document.getElementById('fName').value;
+    const lastName=document.getElementById('lName').value;
 
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => (window.location.href = "/dashboard/"))
-    .catch((error) => alert("Login failed: " + error.message));
-};
+    const auth=getAuth();
+    const db=getFirestore();
 
-// Sign Up
-window.signupUser = function () {
-  const email = document.getElementById("signup-email").value;
-  const password = document.getElementById("signup-password").value;
+    createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential)=>{
+        const user=userCredential.user;
+        const userData={
+            email: email,
+            firstName: firstName,
+            lastName:lastName
+        };
+        showMessage('Account Created Successfully', 'signUpMessage');
+        const docRef=doc(db, "users", user.uid);
+        setDoc(docRef,userData)
+        .then(()=>{
+            window.location.href='index.html';
+        })
+        .catch((error)=>{
+            console.error("error writing document", error);
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      const user = userCredential.user;
-      // Store metadata in Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        email: user.email,
-        role: "user" // default role, or customize as needed
-      });
-      alert("Account created! Redirecting to dashboard...");
-      window.location.href = "/dashboard/";
+        });
     })
-    .catch((error) => alert("Signup failed: " + error.message));
-};
+    .catch((error)=>{
+        const errorCode=error.code;
+        if(errorCode=='auth/email-already-in-use'){
+            showMessage('Email Address Already Exists !!!', 'signUpMessage');
+        }
+        else{
+            showMessage('unable to create User', 'signUpMessage');
+        }
+    })
+ });
 
-// Load User Info
-window.onload = function () {
-  onAuthStateChanged(auth, async (user) => {
-    if (user && window.location.pathname.includes("/dashboard")) {
-      const snap = await getDoc(doc(db, "users", user.uid));
-      const userData = snap.data();
-      document.getElementById("welcome").innerText =
-        `Welcome ${userData.role} ${user.email}`;
-    }
-  });
-};
+ const signIn=document.getElementById('submitSignIn');
+ signIn.addEventListener('click', (event)=>{
+    event.preventDefault();
+    const email=document.getElementById('email').value;
+    const password=document.getElementById('password').value;
+    const auth=getAuth();
+
+    signInWithEmailAndPassword(auth, email,password)
+    .then((userCredential)=>{
+        showMessage('login is successful', 'signInMessage');
+        const user=userCredential.user;
+        localStorage.setItem('loggedInUserId', user.uid);
+        window.location.href='homepage.html';
+    })
+    .catch((error)=>{
+        const errorCode=error.code;
+        if(errorCode==='auth/invalid-credential'){
+            showMessage('Incorrect Email or Password', 'signInMessage');
+        }
+        else{
+            showMessage('Account does not Exist', 'signInMessage');
+        }
+    })
+ })

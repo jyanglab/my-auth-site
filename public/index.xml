@@ -2,10 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>My New Hugo Site</title>
-    <link>http://localhost:1313/</link>
+    <link>https://example.org/</link>
     <description>Recent content on My New Hugo Site</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://example.org/dashboard/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.org/dashboard/</guid>
+      <description>&lt;!DOCTYPE html&gt;&#xA;&lt;html&gt;&#xA;&lt;head&gt;&#xA;  &lt;title&gt;Dashboard&lt;/title&gt;&#xA;  &lt;script type=&#34;module&#34; src=&#34;https://example.org/firebase.js&#34;&gt;&lt;/script&gt;&#xA;&lt;/head&gt;&#xA;&lt;body&gt;&#xA;  &lt;h2 id=&#34;welcome&#34;&gt;Loading user info...&lt;/h2&gt;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://example.org/login/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://example.org/login/</guid>
+      <description>&lt;!DOCTYPE html&gt;&#xA;&lt;html&gt;&#xA;&lt;head&gt;&#xA;  &lt;title&gt;Login&lt;/title&gt;&#xA;  &lt;script type=&#34;module&#34; src=&#34;https://example.org/firebase.js&#34;&gt;&lt;/script&gt;&#xA;&lt;/head&gt;&#xA;&lt;body&gt;&#xA;  &lt;h2&gt;Login&lt;/h2&gt;&#xA;  &lt;input id=&#34;email&#34; placeholder=&#34;Email&#34;&gt;&lt;br&gt;&#xA;  &lt;input id=&#34;password&#34; type=&#34;password&#34; placeholder=&#34;Password&#34;&gt;&lt;br&gt;&#xA;  &lt;button onclick=&#34;loginUser()&#34;&gt;Login&lt;/button&gt;&#xA;&lt;/body&gt;&#xA;&lt;/html&gt;</description>
+    </item>
   </channel>
 </rss>

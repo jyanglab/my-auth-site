@@ -8,9 +8,20 @@
     <loc>http://localhost:1313/posts/</loc>
     <lastmod>2025-07-28T13:57:36-05:00</lastmod>
   </url><url>
+<<<<<<< HEAD
     <loc>http://localhost:1313/dashboard/</loc>
   </url><url>
     <loc>http://localhost:1313/login/</loc>
+=======
+    <loc>https://example.org/posts/welcome/</loc>
+    <lastmod>2025-07-28T13:57:36-05:00</lastmod>
+  </url><url>
+    <loc>https://example.org/dashboard/</loc>
+  </url><url>
+    <loc>https://example.org/homepage/</loc>
+  </url><url>
+    <loc>https://example.org/login/</loc>
+>>>>>>> 1388579c5e088e32a151074fafe3a6c008d3975f
   </url><url>
     <loc>http://localhost:1313/categories/</loc>
   </url><url>

@@ -10,7 +10,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyB9MgufM9zd9NRZJX5sV5ra2nnVgrP668s",
   authDomain: "my-demo-ad994.firebaseapp.com",
   projectId: "my-demo-ad994",
-  storageBucket: "my-demo-ad994.firebasestorage.app",
+  storageBucket: "my-demo-ad994.appspot.com",
   messagingSenderId: "927084817695",
   appId: "1:927084817695:web:cbe464ab831684fe5dd42a",
   measurementId: "G-HVBQSEMDYK"
@@ -82,7 +82,7 @@ const firebaseConfig = {
         showMessage('login is successful', 'signInMessage');
         const user=userCredential.user;
         localStorage.setItem('loggedInUserId', user.uid);
-        window.location.href='homepage.html';
+        window.location.href='dashboard/index.html';
     })
     .catch((error)=>{
         const errorCode=error.code;

@@ -2,7 +2,19 @@
 <html>
 <head>
   <title>Dashboard</title>
-  <script type="module" src="/firebase.js"></script>
+  <script type="module" src="/auth0.js"></script>
+  <script type="module">
+    import { handleRedirect, getUser } from '/auth0.js';
+    handleRedirect();
+    const user = await getUser();
+    const welcome = document.getElementById('welcome');
+    if (!user) {
+      window.location.href = '/login/';
+    } else {
+      const name = user.name || user.email;
+      welcome.textContent = `Welcome, ${name}!`;
+    }
+  </script>
 </head>
 <body>
   <h2 id="welcome">Loading user info...</h2>

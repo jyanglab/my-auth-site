@@ -18,6 +18,8 @@ const db = getFirestore();
 
 const welcomeEl = document.getElementById('welcome');
 const logoutBtn = document.getElementById('logout');
+const menuToggle = document.getElementById('menuToggle');
+const menuList = document.getElementById('menuList');
 
 async function loadUser() {
   const uid = localStorage.getItem('loggedInUserId');
@@ -31,6 +33,9 @@ async function loadUser() {
     if (snap.exists()) {
       const data = snap.data();
       welcomeEl.textContent = `Welcome, ${data.firstName}!`;
+      if (menuToggle) {
+        menuToggle.textContent = `${data.firstName} \u25BC`;
+      }
     } else {
       welcomeEl.textContent = 'Welcome!';
     }
@@ -40,7 +45,15 @@ async function loadUser() {
   }
 }
 
-logoutBtn.addEventListener('click', () => {
+
+if (menuToggle && menuList) {
+  menuToggle.addEventListener('click', () => {
+    menuList.style.display = menuList.style.display === 'block' ? 'none' : 'block';
+  });
+}
+
+logoutBtn.addEventListener('click', (e) => {
+  e.preventDefault();
   signOut(auth).finally(() => {
     localStorage.removeItem('loggedInUserId');
     window.location.href = '/login/';

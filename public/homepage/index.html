@@ -5,9 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Home</title>
     <script type="module" src="/homepage.js"></script>
+    <style>
+        .user-menu { margin-top: 1rem; position: relative; display: inline-block; }
+        .user-menu button { cursor: pointer; }
+        .user-menu .menu-list { position: absolute; background: #fff; border: 1px solid #ccc; }
+        .user-menu .menu-list li { padding: 4px 8px; }
+        .user-menu .menu-list li a { text-decoration: none; color: inherit; display: block; }
+    </style>
 </head>
 <body>
     <h2 id="welcome">Loading...</h2>
-    <button id="logout">Logout</button>
+    <div class="user-menu">
+        <button id="menuToggle">Menu ▼</button>
+        <ul id="menuList" class="menu-list" style="display:none; list-style:none; padding:0; margin-top:4px;">
+            <li><a href="/profile/">Profile</a></li>
+            <li><a href="/dashboard/">Dashboard</a></li>
+            <li><a href="#" id="logout">Logout</a></li>
+        </ul>
+    </div>
 </body>
 </html>
